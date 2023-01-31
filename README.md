@@ -11,7 +11,7 @@ Now from the commmand line you can start the project via the "main.py" file.
 
 Once started, you will be prompted to enter the numbers that fill your sudoku board one line at a time, using 0 for all blanks.
 
-The program will tell you immediately if the line you just entered is not valid.'
+The program will tell you immediately if the line you just entered is not valid.
 Once all 9 rows have been entered, the board is validated as a whole, targeting each row, column, and 3x3 box.
 
 Once it is validated, you will see a copy of your board printed out to the terminal. 
