@@ -1,7 +1,5 @@
 from clart import *
 
-user_board = []
-
 def print_board(board):
 
     print("\n- - - - - - - - - - - - -")
@@ -86,32 +84,23 @@ def solve_board(board):
 
 
 
-def build_board():
+def build_board(board):
     """
     Takes user input line-by-line until all numbers received.
     Builds 2-D Array formatted for use with the print_board() function
     """
 
     for i in range(1, 10):
-        line_numbers = []
-        num_input = input(f"\nPlease enter the numbers in line #{i}\nUse 0 for all empty spaces\nType all 9 numbers together and press [enter] when done:  ")
-        for num in num_input:
-            try:
-                line_numbers.append(int(num))
-            except ValueError:
-                break
-                reset_board()
-        user_board.append(line_numbers)
+        line_string = get_current_line(i)
+        current_nums = []
+        for num in line_string:
+            current_nums.append(int(num))
+        board.append(current_nums)
 
 
 def is_valid_sudoku(board):
     for i in range(9):
-        if len(board[i]) != 9:
-            return False
-
-        for entry in board[i]:
-            if not isinstance(entry, int):
-                return False
+        
 
         row_set = set()
 
@@ -146,29 +135,47 @@ def is_valid_sudoku(board):
     return True
 
 
-def reset_board():
-    global user_board
+def reset_board(board):
     print(error_text)
     print("It seems there was an error.")
     print("To be valid, your board must contain 9 rows of boxes with 9 numbers in each.")
     print("Every entry must be a whole number.")
     print("There can be no repeat numbers in rows, columns, or boxes.")
     print("Please try again.\n\n")
-    user_board = []
-    build_board()
+    board = []
+    build_board(board)
 
 
-def start_app():
+
+def get_current_line(line_num):
+    line = ""
+    while not line:
+        user_input = input(f"\nPlease enter the numbers in line #{line_num}\nUse 0 for all empty spaces\nType all 9 numbers together and press [enter] when done:  ")
+        
+        if len(user_input) != 9:
+            print("\nOops! Your line must contain exactly 9 numbers.")
+        
+        try:
+            checker = int(user_input)
+            line += user_input
+        except ValueError:
+            print("\nOops! Your line must contain only whole numbers.")
+    
+    return line
+
+
+
+def start_app(board):
 
     print(welcome_text)
-    build_board()
+    build_board(board)
 
-    while not is_valid_sudoku(user_board):
-        reset_board()
+    while not is_valid_sudoku(board):
+        reset_board(board)
 
     print(input_board_text)
-    print_board(user_board)
+    print_board(board)
     print(solved_board_text)
-    solve_board(user_board)
-    print_board(user_board)
+    solve_board(board)
+    print_board(board)
     print("\n\n\n")
